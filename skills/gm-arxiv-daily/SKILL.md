@@ -76,11 +76,17 @@ chose 2-5 top papers and never padded. A short list on a quiet day is the correc
   They are Gabriele's most-saved stream (competitor tracking): keep the best one or two in the
   also list.
 
+## PDF summaries
+
+The morning routine attaches a PDF of full-text technical summaries of the TOP papers, written by
+the arxiv_skimmer shipped next to this skill in the mirror. `references/pdf_summaries.md` is the
+procedure. It is a bonus: run it only when a caller asks for it, and never let it block the email.
+
 ## Reply-to-save
 
 When Gabriele replies to a digest with papers they liked, `references/reply_to_save.md` is the
-procedure that adds them to `arxiv_reads` on their website (via `scripts/add_reads.py`). It is
-separate from ranking: run it only when a caller (e.g. the morning routine) asks for it.
+procedure that adds them to `arxiv_reads` on their website (via `scripts/save_reads.py`). It is
+separate from ranking and runs on Gabriele's Mac, not in the cloud routine.
 
 ## Scope
 
