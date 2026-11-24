@@ -11,7 +11,8 @@ Usage:
   SITE_DIR  a checkout of GabrieleMonte.github.io
   ID        new-style arXiv ids (2611.27986 or 2611.27986v2); anything else is reported invalid
 
-Output: import_tabs' progress lines, then as the LAST stdout line one JSON object {'added': [[id, title], ...], 'already_listed': [...],
+Output: import_tabs' progress lines, then as the LAST stdout line one JSON object
+{'added': [[id, title], ...], 'already_listed': [...],
 'invalid': [...], 'not_found': [...]}. Exit status 0 even when nothing was added.
 """
 

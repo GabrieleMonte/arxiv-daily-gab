@@ -27,18 +27,18 @@ It runs at the start of the morning routine, before ranking. The caller supplies
      from the digest's numbered TOP and ALSO INTERESTING lists in the first message;
    - `all top` means every TOP item of that digest.
    A reply with no references (e.g. "thanks") gets labelled and is otherwise ignored.
-3. **Clone the site** (only if step 2 found references):
-   `git clone --depth 20 "https://x-access-token:${GH_SITE_TOKEN}@github.com/GabrieleMonte/GabrieleMonte.github.io" /tmp/site`
-   then `cd /tmp/site && git checkout -B <BRANCH> origin/<BRANCH> 2>/dev/null || git checkout -b <BRANCH>`.
+3. **Clone the site** (only if step 2 found references). The repo is public, so clone without
+   credentials: `git clone --depth 1 --branch <BRANCH> https://github.com/GabrieleMonte/GabrieleMonte.github.io /tmp/site`
+   (if BRANCH does not exist yet, clone the default branch instead).
    If `GH_SITE_TOKEN` is empty, skip to step 6 and say the token is missing.
 4. **Add the papers:** `python3 -I <skill>/scripts/add_reads.py /tmp/site <id> <id> ...`
    (all ids from all candidate replies in one call). Parse the JSON on its last output line.
-5. **Commit and push** if `added` is non-empty:
-   `git add arxiv_reads/*_reads.html`, commit with author
-   `arxiv-daily <gabrielemontef@gmail.com>` and message
-   `arxiv_reads: add <n> paper(s) from email reply`, then
-   `git pull --rebase origin <BRANCH>` (other workflows push to this repo) and
-   `git push origin <BRANCH>`. Retry the pull+push once on rejection.
+5. **Publish** if `added` is non-empty. Do NOT use `git commit`/`git push`: the sandbox's git
+   proxy refuses pushes to this repo. Instead run
+   `python3 -I <skill>/scripts/push_reads.py /tmp/site <BRANCH> "arxiv_reads: add <n> paper(s) from email reply"`,
+   which commits the changed reads files through the GitHub API with `$GH_SITE_TOKEN` and
+   refuses to overwrite a file that changed remotely. Parse the JSON on its last output line;
+   a non-empty `error` means nothing (or not everything) was published.
 6. **Confirm and label.** For each processed reply, send one email to gabrielemontef@gmail.com
    in its thread (`mcp__Gmail__send_message` with `replyThreadId` and `replyToMessageId`) whose
    body starts with `[arxiv-daily]` and lists: added (id — title), already listed,
