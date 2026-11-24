@@ -88,6 +88,12 @@ When Gabriele replies to a digest with papers they liked, `references/reply_to_s
 procedure that adds them to `arxiv_reads` on their website (via `scripts/save_reads.py`). It is
 separate from ranking and runs on Gabriele's Mac, not in the cloud routine.
 
+## Monthly feedback
+
+Once a month, `references/feedback.md` compares the digests with what Gabriele saved and emails
+numbered proposals for `recent_boost.md` and `interest_profile.md`; Gabriele approves them by
+reply. Like reply-to-save it runs on the Mac. Never edit the profile from a ranking run.
+
 ## Scope
 
 - Categories: astro-ph.CO and hep-ph only, including cross-lists into them. Replacements are

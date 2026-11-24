@@ -2,7 +2,7 @@
 
 Gabriele replies to a daily digest email with the papers they liked; this procedure adds them to
 `arxiv_reads/<year>_reads.html` in the GabrieleMonte.github.io repo and confirms by email.
-It runs on Gabriele's Mac (launchd job `~/.local/share/arxiv-daily/reply_to_save_local.sh`,
+It runs on Gabriele's Mac (launchd job `~/.local/share/arxiv-daily/arxiv_local.sh daily`,
 every morning at 07:30 Mac time), because the cloud sandbox cannot push to that repo. The caller supplies:
 
 - `SUBJECT` — the digest subject to search for (production: `Daily Arxiv Picks for Gab`).

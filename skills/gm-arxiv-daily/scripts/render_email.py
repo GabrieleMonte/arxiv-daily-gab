@@ -11,6 +11,9 @@ Input:
                 ranking cannot misquote them)
 
 Output: RANKING.html and RANKING.txt next to RANKING.json, and the subject line on stdout.
+Both bodies end with a reply hint and one machine-readable line
+'arxiv-daily-picks: {"mailing", "top": [[id, tier]], "also": [[id, tier or "wildcard"]]}', which
+the monthly feedback step (references/feedback.md) reads back from the sent emails.
 """
 
 import html
@@ -34,7 +37,11 @@ STYLE = {
     'reason': 'font-size:14px;margin-top:2px;',
     'tag': 'font-size:11px;color:#6b6a65;border:1px solid #ccc;border-radius:3px;'
            'padding:0 4px;margin-left:4px;',
+    'foot': 'color:#9a9893;font-size:11px;margin-top:18px;border-top:1px solid #eee;'
+            'padding-top:6px;',
 }
+REPLY_HINT = ('Reply with T1, A2, arXiv ids or "all top" to add papers to arxiv_reads '
+              '(processed the next morning).')
 
 
 # ---- helpers ----------------------------------------------------------------------------------
@@ -91,6 +98,10 @@ mail_day = date.fromisoformat(listing['mailing'])
 subject = f'Daily Arxiv Picks for Gab [{mail_day:%a}, {mail_day:%b} {mail_day.day} {mail_day.year}]'
 counts = f'{len(top)} top + {len(also)} also from {listing["n"]} new and cross-listed papers'
 
+picks = {'mailing': listing['mailing'], 'top': [[r['id'], str(r['tier'])] for r in top],
+         'also': [[r['id'], 'wildcard' if r.get('wildcard') else str(r['tier'])] for r in also]}
+picks_line = 'arxiv-daily-picks: ' + json.dumps(picks, separators=(',', ':'))
+
 note = ranking.get('note', '')
 parts = [f'<div style="{STYLE["body"]}">',
          f'<div style="{STYLE["meta"]}">astro-ph.CO + hep-ph &middot; mailing '
@@ -102,6 +113,8 @@ parts += [_html_item(r) for r in top]
 if also:
     parts.append(f'<h2 style="{STYLE["h2"]}">Also interesting</h2>')
     parts += [_html_item(r) for r in also]
+parts.append(f'<div style="{STYLE["foot"]}">{html.escape(REPLY_HINT)}<br>'
+             f'{html.escape(picks_line, quote=False)}</div>')
 parts.append('</div>')
 rank_path.with_suffix('.html').write_text('\n'.join(parts))
 
@@ -110,5 +123,6 @@ text += [_text_item(i+1, top[i]) for i in range(len(top))]
 if also:
     text += ['ALSO INTERESTING', '']
     text += [_text_item(i+1, also[i]) for i in range(len(also))]
+text += ['--', REPLY_HINT, picks_line, '']
 rank_path.with_suffix('.txt').write_text('\n'.join(text))
 print(subject)

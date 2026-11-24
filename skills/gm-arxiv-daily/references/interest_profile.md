@@ -84,4 +84,5 @@ F. Qu, M. Ivanov.
 4. **One wildcard** at most, counted within the also list's 5: a paper outside the profile that is unusual or
    broadly striking (past picks: space-based particle colliders, the pulsar radial acceleration
    relation, a differentiable neutrino event generator). Tag it as a wildcard.
-5. **Recent boost**: topics in `recent_boost.md` get a temporary bump within their tier.
+5. **Recent boost**: topics in `recent_boost.md` get a temporary bump within their tier;
+   ignore rows whose Expires date has passed.
