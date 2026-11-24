@@ -16,6 +16,7 @@ Output: RANKING.html and RANKING.txt next to RANKING.json, and the subject line 
 import html
 import json
 import sys
+from datetime import date
 from pathlib import Path
 
 
@@ -86,12 +87,14 @@ also = _entries(ranking.get('also', []), papers, 'also')
 if len(top) > 5:
     raise ValueError(f'top list has {len(top)} papers; the profile allows at most 5')
 
-subject = f'arXiv {listing["mailing"]}: {len(top)} top + {len(also)} also ({listing["n"]} read)'
+mail_day = date.fromisoformat(listing['mailing'])
+subject = f'Daily Arxiv Picks for Gab [{mail_day:%a}, {mail_day:%b} {mail_day.day} {mail_day.year}]'
+counts = f'{len(top)} top + {len(also)} also from {listing["n"]} new and cross-listed papers'
 
 note = ranking.get('note', '')
 parts = [f'<div style="{STYLE["body"]}">',
          f'<div style="{STYLE["meta"]}">astro-ph.CO + hep-ph &middot; mailing '
-         f'{listing["mailing"]} &middot; {listing["n"]} new and cross-listed papers read</div>']
+         f'{listing["mailing"]} &middot; {counts}</div>']
 if note:
     parts.append(f'<p style="{STYLE["reason"]}">{html.escape(note)}</p>')
 parts.append(f'<h2 style="{STYLE["h2"]}">Top {len(top)}</h2>')
@@ -102,7 +105,7 @@ if also:
 parts.append('</div>')
 rank_path.with_suffix('.html').write_text('\n'.join(parts))
 
-text = [subject, '', note, '', f'TOP {len(top)}', '']
+text = [subject, counts, '', note, '', f'TOP {len(top)}', '']
 text += [_text_item(i+1, top[i]) for i in range(len(top))]
 if also:
     text += ['ALSO INTERESTING', '']
