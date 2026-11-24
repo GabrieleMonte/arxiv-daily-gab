@@ -11,8 +11,9 @@ Work under `/home/user/work` (Gmail attachments by file reference only work for 
 
 ## Steps
 1. **Start the toolchain early** (in the background, right after cloning, so it overlaps with
-   ranking; ~1 min):
-   `(sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended latexmk && pip install -q -r <repo>/arxiv_skimmer/requirements.txt) > /home/user/work/toolchain.log 2>&1 &`
+   ranking; ~4 min). `texlive-science` provides accents.sty and `cm-super` the scalable fonts
+   microtype needs; `python3 -m pip` installs for the same python3 that runs skim.py:
+   `(sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-science cm-super latexmk && python3 -m pip install -q -r <repo>/arxiv_skimmer/requirements.txt) > /home/user/work/toolchain.log 2>&1 &`
 2. **Prepare** (after ranking; wait for step 1 to finish, check `toolchain.log` for errors):
    `cd <repo>/arxiv_skimmer && python3 skim.py --ids <top ids> --prepare /home/user/work/read --cache /home/user/work/cache`
    This writes one `<id>.prompt.md` per paper and `manifest.json`.
