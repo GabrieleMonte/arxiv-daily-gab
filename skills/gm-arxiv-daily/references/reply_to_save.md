@@ -39,8 +39,9 @@ It runs at the start of the morning routine, before ranking. The caller supplies
    `arxiv_reads: add <n> paper(s) from email reply`, then
    `git pull --rebase origin <BRANCH>` (other workflows push to this repo) and
    `git push origin <BRANCH>`. Retry the pull+push once on rejection.
-6. **Confirm and label.** For each processed reply, send one reply in its thread (Gmail reply
-   tool) whose body starts with `[arxiv-daily]` and lists: added (id — title), already listed,
+6. **Confirm and label.** For each processed reply, send one email to gabrielemontef@gmail.com
+   in its thread (`mcp__Gmail__send_message` with `replyThreadId` and `replyToMessageId`) whose
+   body starts with `[arxiv-daily]` and lists: added (id — title), already listed,
    not found / invalid, and the short commit hash and branch; or the error if the push failed.
    Then add the label `arxiv-reads-added` to the processed reply message (create the label if
    it does not exist). Label only after the push succeeded or after a reply was found to hold
