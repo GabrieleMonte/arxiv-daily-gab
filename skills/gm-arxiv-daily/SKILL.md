@@ -76,6 +76,12 @@ chose 2-5 top papers and never padded. A short list on a quiet day is the correc
   They are Gabriele's most-saved stream (competitor tracking): keep the best one or two in the
   also list.
 
+## Reply-to-save
+
+When Gabriele replies to a digest with papers they liked, `references/reply_to_save.md` is the
+procedure that adds them to `arxiv_reads` on their website (via `scripts/add_reads.py`). It is
+separate from ranking: run it only when a caller (e.g. the morning routine) asks for it.
+
 ## Scope
 
 - Categories: astro-ph.CO and hep-ph only, including cross-lists into them. Replacements are
